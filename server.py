@@ -10,7 +10,7 @@ def main():
     s.bind(('', PORT))
     file_chat = open('chat.txt', 'a')
     clients = set()
-    print('Listeing on port', PORT)
+    print('Listening on port', PORT)
 
     while True:
         try:
