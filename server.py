@@ -20,7 +20,7 @@ def main():
                 print('New client:', addr_info)
                 clients.add(addr_info)   
                          
-            print('Client [%s, %r]:' % addr_info, data)
+            print('Client [%s, %s]:' % addr_info, data.decode('utf-8'))
 
             for client_addr in clients:
                 s.sendto(data, client_addr)
