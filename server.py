@@ -18,12 +18,16 @@ def main():
             
             if addr_info not in clients:
                 if len(clients) == 5:
+                    s.sendto(b'Error: too many clients (5)', addr_info)        
                     continue
                 file_chat.write('New client: (\'%s\', %s)\n' % addr_info)
-                clients.add(addr_info)   
-                         
+                clients.add(addr_info)
+                  
             file_chat.write('Client %s: %s\n' % (addr_info, data.decode('utf-8')))
-
+            if data.decode('utf-8') == 'exit':
+                clients.remove(addr_info)
+                file_chat.write('Disconnected: (\'%s\', %s)\n' % addr_info)
+                
             for client_addr in clients:
                 s.sendto(data, client_addr)
                 
