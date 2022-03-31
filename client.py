@@ -1,9 +1,16 @@
-#client
+#!/usr/bin/env python3
+
 import socket
 import sys
 import select
+import codecs
+import signal
 
 SVR_ADDR = ("127.0.0.1", 65535)
+
+def receiveSignal(signalNumber, frame):
+    print(' Please type \'exit\' to exit')
+    return
 
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
@@ -16,7 +23,10 @@ def main():
                 if obj is sys.stdin:
                     line = sys.stdin.readline().strip()
                     s.send(line.encode('utf-8'))
-
+                    if line == 'exit':
+                        s.close()
+                        return
+                        
                 else:
                     packet = s.recv(4096)
                     try:
@@ -32,4 +42,7 @@ def main():
     s.close()
 
 if __name__ == '__main__':
+    
+    signal.signal(signal.SIGINT, receiveSignal)
+    signal.signal(signal.SIGQUIT, receiveSignal)
     main()  
